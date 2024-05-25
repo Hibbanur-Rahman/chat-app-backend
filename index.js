@@ -45,20 +45,26 @@ const io= new Server(server,{
 
 //Handle Socket.io connections
 io.on("connection",(socket)=>{
-  console.log("A user connected");
+  console.log("A user connected ",socket.id);
 
-  //Handle a chat message event
-  socket.on("chat message",(msg)=>{
-    console.log("Message"+msg);
+  //join a chat room
+  socket.on("join-room",(roomId)=>{
+    socket.join(roomId);
+    console.log(`User ${socket.id} joined room ${roomId}`)
+  });
 
-    //Broadcast the message to all clients
-    io.emit("chat message",msg);
+
+
+  //Handle incoming messages
+  socket.on("chat-message",({roomId, message})=>{
+    io.to(roomId).emit('chat-message',message);
+    console.log(`Message sent to room ${roomId}: ${message}`);
   })
 
 
   //Handle disconnection
   socket.on("disconnect",()=>{
-    console.log("A user disconnected");
+    console.log("A user disconnected:",socket.id);
   })
 })
 
