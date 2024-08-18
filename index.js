@@ -57,6 +57,11 @@ io.on("connection",(socket)=>{
 
   //Handle incoming messages
   socket.on("chat-message",({roomId, message})=>{
+    console.log('Received message:', { roomId, message });
+    if(!roomId || !message){
+      console.error('Room ID or message is undefined');
+      return ;
+    }
     io.to(roomId).emit('chat-message',message);
     console.log(`Message sent to room ${roomId}: ${message}`);
   })
