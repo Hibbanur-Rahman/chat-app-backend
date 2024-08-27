@@ -109,7 +109,32 @@ const UserRegister = async (req, res) => {
   }
 };
 
+const GetAllUser=async(req,res)=>{
+  try{
+    const users=await UserModel.find();
+    if(!users){
+      return res.status(httpStatusCode.BAD_REQUEST).json({
+        success:false,
+      })
+    }
+
+    return res.status(httpStatusCode.OK).json({
+      success:true,
+      message:"Successfully viewed",
+      data:users
+    })
+
+  }catch(error){
+    return res.status(httpStatusCode.INTERNAL_SERVER_ERROR).json({
+      success:false,
+      message:"Something went wrong!!",
+      error:error.message,
+    });
+  }
+}
+
 module.exports = {
   UserLogin,
   UserRegister,
+  GetAllUser
 };

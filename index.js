@@ -66,6 +66,11 @@ io.on("connection",(socket)=>{
     console.log(`Message sent to room ${roomId}: ${message}`);
   })
 
+  //handle typing
+  socket.on("typing",(roomId)=>socket.in(room).emit("typing"));
+
+  //handle stop typing
+  socket.on("stop typing",(roomId)=>socket.in(roomId).emit("stop typing"));
 
   //Handle disconnection
   socket.on("disconnect",()=>{
