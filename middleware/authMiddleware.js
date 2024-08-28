@@ -10,7 +10,7 @@ const getToken = (user) => {
   return token;
 };
 
-const VerifyToken = (req, res) => {
+const VerifyToken = (req, res,next) => {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(httpStatusCode.UNAUTHORIZED).json({
